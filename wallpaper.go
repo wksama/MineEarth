@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"earth/system"
 	"earth/utils"
+	"errors"
 	"fmt"
 	"github.com/nfnt/resize"
 	"golang.org/x/image/bmp"
@@ -59,6 +60,7 @@ func (w *Wallpaper) Exec()  {
 	fmt.Println("Done")
 }
 
+//get earth content from gitee
 func (w *Wallpaper) getContent() error {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", URL, nil)
@@ -68,21 +70,20 @@ func (w *Wallpaper) getContent() error {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return utils.BuildErrMsg("Do request error", err)
+		return utils.BuildErrMsg("do request error", err)
 	}
 
 	////backup the http response for comparing with last wallpaper content
 	w.Content, err = ioutil.ReadAll(resp.Body)
-	defer resp.Body.Close()
-
 	if err != nil {
 		return err
 	}
+	defer resp.Body.Close()
 
 	return nil
-
 }
 
+//draw a wallpaper which size the save as screen resolution
 func (w *Wallpaper) draw() (image.Image, error) {
 
 	topLeft := image.Point{0, 0}
@@ -108,19 +109,21 @@ func (w *Wallpaper) draw() (image.Image, error) {
 	//do offset
 	draw.Draw(img, content.Bounds().Add(offset), content, image.Point{}, draw.Over)
 
-
-
 	return img, nil
 }
 
-func SaveBaseOnOs(img image.Image)  {
+//if os is windows,save the image as bmp file, otherwise png instead
+func SaveBaseOnOs(img image.Image) error {
 	if runtime.GOOS == "windows" {
 		FilePath = os.TempDir() + string(os.PathSeparator) + "image.bmp"
 		//create a new file for save wallpaper
 		wpFile, _ := os.Create(FilePath)
 		defer wpFile.Close()
 
-		_ = bmp.Encode(wpFile, img)
+		err := bmp.Encode(wpFile, img)
+		if err != nil {
+			return errors.New("windows decode image failed")
+		}
 		wpFile.Close()
 	}else {
 		FilePath = os.TempDir() + string(os.PathSeparator) + "image.png"
@@ -128,12 +131,14 @@ func SaveBaseOnOs(img image.Image)  {
 		defer wpFile.Close()
 
 		err := png.Encode(wpFile, img)
-		fmt.Println(err)
+		if err != nil {
+			return errors.New("linux decode image failed")
+		}
 		wpFile.Close()
 	}
 	if CACHE {
 		defer func() {
-			os.MkdirAll(cacheDir, 0666)
+			os.MkdirAll(cacheDir, 0777)
 			f,err := os.Create(cacheDir + string(os.PathSeparator) + time.Now().Format("20060102150405") + ".png")
 			if err != nil {
 				fmt.Println(err)
@@ -142,6 +147,7 @@ func SaveBaseOnOs(img image.Image)  {
 			f.Close()
 		}()
 	}
+	return nil
 }
 
 

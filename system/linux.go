@@ -20,17 +20,16 @@ var (
 
 // init guesses the current desktop by reading processes if $XDG_CURRENT_DESKTOP was not set.
 func init() {
-
-	if Desktop != "" {
-		return
-	}
-
 	command := "xdpyinfo | awk '/dimensions/{print $2}'"
 	cmd := exec.Command("/bin/bash", "-c", command)
 	opt,_ := cmd.Output()
 	optArr := strings.Split(string(opt), "x")
 	ScreenW,_ = strconv.Atoi(optArr[0])
 	ScreenH,_ = strconv.Atoi(strings.TrimSpace(optArr[1]))
+
+	if Desktop != "" {
+		return
+	}
 
 	files, err := ioutil.ReadDir("/proc")
 	if err != nil {
