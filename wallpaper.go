@@ -1,9 +1,9 @@
 package main
 
 import (
+	"MineEarth/system"
+	"MineEarth/utils"
 	"bytes"
-	"earth/system"
-	"earth/utils"
 	"errors"
 	"fmt"
 	"github.com/nfnt/resize"

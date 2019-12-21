@@ -3,7 +3,7 @@
 package system
 
 import (
-	"earth/utils"
+	"MineEarth/utils"
 	"os"
 	"path"
 	"syscall"
