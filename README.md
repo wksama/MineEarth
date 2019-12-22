@@ -2,6 +2,8 @@
 
 让卫星给你拍壁纸
 
+<img src="https://gitee.com/wencochen/No.8-Sunflower/raw/master/earth.png" width="100px" height="100px">
+
 ## 简介
 
 此软件用于将向日葵8号气象卫星拍摄的地球影像的国内镜像设置为电脑桌面。
