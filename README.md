@@ -1,6 +1,6 @@
 # 我的地球
 
-让卫星给你拍壁纸
+让卫星给你拍壁纸，[下载](https://github.com/WencoChen/MineEarth/releases)
 
 <img src="https://gitee.com/wencochen/No.8-Sunflower/raw/master/earth.png" width="100px" height="100px">
 
