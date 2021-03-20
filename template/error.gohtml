@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+</head>
+<body>
+<h1>请求出错</h1>
+<fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
+    <legend>错误信息</legend>
+
+    <div class="layui-row" style="text-align: center">
+        <h3>{{.}}</h3>
+    </div>
+</fieldset>
+
+<br />
+<span id="time">3</span>秒后返回上一页
+</body>
+</html>
+
+<script>
+    var timeLeft = 3;
+    setInterval(function (){
+        timeLeft--;
+        if (timeLeft === 0) {
+            window.history.go(-1);
+        }
+        document.getElementById('time').innerText = String(timeLeft)
+    }, 1000)
+</script>

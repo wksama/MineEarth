@@ -1,0 +1,105 @@
+{{ template "_header.gohtml" .}}
+
+{{ template "_sidebar.gohtml" .}}
+
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>系统设置</legend>
+</fieldset>
+<form class="layui-form" method="post" action="/saveSetting" enctype="multipart/form-data">
+    <div class="layui-form-item">
+        <label class="layui-form-label">壁纸文件名</label>
+        <div class="layui-input-block">
+            <input type="text" name="save_name" value="{{.settings.wallpaper.savename}}" lay-verify="title" autocomplete="off" placeholder="自定义壁纸文件保存名称"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">壁纸来源</label>
+        <div class="layui-input-block">
+            <select name="source">
+                <option>Selected</option>
+                {{- $source := .settings.wallpaper.source}}
+                {{range $key,$val := .choices}}
+                    <option value="{{$key}}" data-key="{{$key}}" {{ if eq $key $source }}selected{{end}}>{{$val}}</option>
+                {{end}}
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择图片</label>
+        <div class="layui-input-block">
+            <input type="file" name="file">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">缓存壁纸</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="cache" value="true" {{if eq .settings.wallpaper.cache true}}checked{{end}} lay-skin="switch" lay-text="ON|OFF">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">内容占比</label>
+        <div class="layui-input-inline">
+            <input type="number" name="percentage" max="1" min="0" step="0.1" value="{{.settings.wallpaper.percentage}}" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+{{template "_footer.gohtml" .}}
+
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+    });
+</script>
+
+<script>
+
+
+    layui.use('upload', function(){
+        var $ = layui.jquery
+            ,upload = layui.upload;
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            ,url: 'https://httpbin.org/post' //改成您自己的上传接口
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            }
+            ,done: function(res){
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+            }
+            ,error: function(){
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function(){
+                    uploadInst.upload();
+                });
+            }
+        });
+    });
+</script>

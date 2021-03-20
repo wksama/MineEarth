@@ -1,0 +1,19 @@
+<div class="layui-header">
+    <div class="layui-logo">MineEarth Admin</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+</div>
+
+<div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+            <li class="layui-nav-item {{if eq .path "home"}}layui-this{{end}}"><a href="/">主页</a></li>
+            <li class="layui-nav-item {{if eq .path "setting"}}layui-this{{end}}"><a href="/setting">配置</a></li>
+            <li class="layui-nav-item {{if eq .path "about"}}layui-this{{end}}"><a href="/about">关于</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 50px;">

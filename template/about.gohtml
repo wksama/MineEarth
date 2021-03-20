@@ -1,0 +1,23 @@
+{{ template "_header.gohtml" .}}
+
+{{ template "_sidebar.gohtml" .}}
+
+<fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
+    <legend>赞赏码</legend>
+
+    <div class="layui-row" style="text-align: center">
+        <div class="layui-col-xs3 layui-col-md-offset3">
+            <img width="300" height="300" src="/public/images/weixin.png">
+
+            <div> <span class="layui-badge layui-bg-green">微信</span></div>
+        </div>
+        <div class="layui-col-xs3">
+            <img width="300" height="300" src="/public/images/ali.png">
+            <div><span class="layui-badge layui-bg-blue">支付宝</span></div>
+        </div>
+    </div>
+</fieldset>
+
+
+
+{{template "_footer.gohtml" .}}

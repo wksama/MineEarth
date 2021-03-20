@@ -1,0 +1,52 @@
+{{ template "_header.gohtml" .}}
+
+{{ template "_sidebar.gohtml" .}}
+<link rel="stylesheet" href="/public/style.css">
+<style>
+    .layui-body {
+        background-color: black;
+    }
+    #slogan {
+        color: white;
+    }
+    #earth, #earth img {
+        border-radius: 200px;
+        margin: auto;
+        text-align: center;
+        width: 400px;
+        height: 400px;
+    }
+</style>
+<div class="starfield">
+    <div class="static"></div>
+    <div class="moving-1"></div>
+    <div class="moving-2"></div>
+    <div class="moving-3"></div>
+</div>
+<h1>
+    <span id="slogan"></span>
+</h1>
+
+<br />
+<br />
+<br />
+
+<div id="earth">
+    <img src="https://gitee.com/wencochen/No.8-Sunflower/raw/master/earth.png">
+</div>
+
+
+{{template "_footer.gohtml" .}}
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+
+<script>
+    var typed = new Typed("#slogan", {
+        strings: ['我的地球，让卫星为你拍壁纸'],
+        typeSpeed: 200,
+        backSpeed: 0,
+        backDelay: 500,
+        startDelay: 1000,
+        loop: true,
+    });
+</script>
